@@ -25,15 +25,18 @@ class ParkingSystem:
             writer.writerows(self.data)
 
     def add_reservation(self, no, date, time, name, vehicle, plate_number):
-        self.data.append({
+        row = {
             "#": no,
             "Date": date,
             "Time": time,
             "Name": name,
             "Vehicle Type": vehicle,
             "Plate Number": plate_number
-        })
+        }
+        self.data.append(row)
         self.save()
+
+        return row
 
     def get_res_by_no(self, no):
         for row in self.data:
@@ -67,10 +70,12 @@ class ParkingSystem:
         self.save()
 
     def display_row(self, row):
+        print()
         for i in ParkingSystem.headers:
             print(i, end=" ")
         print()
         print(" ".join(row.values()), end=" ")
+        print()
     
     def report(self, date: str):
         for i in ParkingSystem.headers:

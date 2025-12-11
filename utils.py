@@ -20,6 +20,20 @@ def prompt_int(msg):
             continue
         return inpt
 
+def prompt_res_no(msg, ps):
+    while True:
+        inpt = input(msg)
+        if not inpt.isnumeric():
+            print("Please type in a valid integer")
+            continue
+
+        if ps.get_res_by_no(inpt) != None:
+            print("Reservation number already exists")
+            continue
+
+        return inpt
+
+
 def prompt_yn(msg):
     while True:
         inpt = input(msg + " [y/n] > ").lower().strip()

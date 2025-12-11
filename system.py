@@ -1,5 +1,7 @@
 import os
 import csv
+import utils
+import textwrap
 
 class ParkingSystem:
 
@@ -71,34 +73,25 @@ class ParkingSystem:
 
     def display_row(self, row):
         print()
-        for i in ParkingSystem.headers:
-            print(i, end=" ")
-        print()
-        print(" ".join(row.values()), end=" ")
-        print()
+        d = [list(row.values())]
+        d.insert(0, ParkingSystem.headers)
+        utils.print_matrix(d)
     
     def report(self, date: str):
-        for i in ParkingSystem.headers:
-            print(i, end=" ")
+        print(textwrap.dedent(f"""
+        Generated Report For {date}"""))
 
-        print()
+        d = [list(x.values()) for x in self.data if x["Date"] == date]
+        d.insert(0, ParkingSystem.headers)
 
-        for i in self.data:
-            if i["Date"] == date:
-                print(" ".join(i.values()), end=" ")
-                print()
+        utils.print_matrix(d)
 
         print()
 
  
     def view_reservations(self):
-        for i in ParkingSystem.headers:
-            print(i, end=" ")
+        d = [list(x.values()) for x in self.data]
+        d.insert(0, ParkingSystem.headers)
 
-        print()
-
-        for i in self.data:
-            print(" ".join(i.values()), end=" ")
-            print()
-
+        utils.print_matrix(d)
         print()

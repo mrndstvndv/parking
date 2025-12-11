@@ -41,3 +41,21 @@ def prompt_yn(msg):
             print("You may only enter y/n or Y/N")
             continue
         return inpt
+
+def print_matrix(data):
+    widths = {}
+    for row in data: 
+        for i, col in enumerate(row):
+            try:
+                if len(col) > widths[i]:
+                    widths[i] = len(col)
+            except KeyError:
+                widths[i] = len(col)
+            except Exception as e:
+                print(e)
+
+    for row in data:
+        print()
+        for i, col in enumerate(row):
+            print(col.ljust(widths[i]), end="   ")
+

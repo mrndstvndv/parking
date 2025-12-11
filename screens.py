@@ -16,19 +16,15 @@ class GenerateReportScreen(PScreen):
 
         print()
 
-        print(textwrap.dedent(f"""
-        Generated Report For {date}
-        """))
-
         self.ps.report(date=date)
 
-        input("Press any key to go back to menu...")
+        input("\nPress any key to go back to menu...")
 
         self.back()
 
 class ViewAllReservationsScreen(PScreen):
     def show(self):
-        print("### All Rervations ###\n")
+        print("\n### All Reservations ###\n")
 
         self.ps.view_reservations()
 

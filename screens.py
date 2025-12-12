@@ -24,7 +24,7 @@ class GenerateReportScreen(PScreen):
 
 class ViewAllReservationsScreen(PScreen):
     def show(self):
-        print("\n### All Reservations ###\n")
+        print("\n### All Reservations ###")
 
         self.ps.view_reservations()
 

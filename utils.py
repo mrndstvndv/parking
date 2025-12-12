@@ -1,5 +1,27 @@
 import os
 
+def get_key():
+    try:
+        import msvcrt
+        print()
+        while True:
+            if msvcrt.kbhit():
+                key = msvcrt.getch()
+                
+                # Check for the first byte of a special key sequence
+                if key == b'\xe0':
+                    # Read the second byte which contains the actual key code
+                    # This second call will block if the first was not available,
+                    # but since kbhit() was true, the second byte should be available
+                    # or become available almost immediately.
+                    special_key_code = msvcrt.getch() 
+                    return (key, special_key_code) # Return both bytes as a tuple
+                
+                # For regular keys, return the single byte
+                return key
+    except ImportError:
+        return False
+
 def clear_screen():
     # Check the operating system name
     if os.name == 'nt':
@@ -10,7 +32,7 @@ def clear_screen():
         _ = os.system('clear')
 
 def prompt(msg = "") -> str:
-    return input("\n" +msg + " > ")
+    return input("\n"+msg + " > ")
 
 def prompt_int(msg):
     while True:

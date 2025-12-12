@@ -1,4 +1,5 @@
-from app import App, Screen
+from app import App
 from screens import MainScreen
+from system import ParkingSystem
 
-App(MainScreen).run()
+App(MainScreen, {"ps": ParkingSystem("reservations.csv")}).run()

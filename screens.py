@@ -1,12 +1,12 @@
 from app import Screen
 from system import ParkingSystem
 import textwrap
-from utils import prompt, prompt_int, prompt_yn, clear_screen, prompt_res_no
+from utils import prompt, prompt_yn, prompt_res_no
 
 class PScreen(Screen):
     def __init__(self, app):
         super().__init__(app)
-        self.ps = self.app.context["ps"]
+        self.ps: ParkingSystem = self.app.context["ps"]
 
 class GenerateReportScreen(PScreen):
     def show(self):
@@ -33,22 +33,7 @@ class ViewAllReservationsScreen(PScreen):
 
 class CancelReservationScreen(PScreen):
     def show(self):
-        print(textwrap.dedent("""
-        ### Cancel Reservation ### 
-        """))
-
-        res_no = None
-
-        while True:
-            res_no = prompt_int("Reservation no: ")
-            row = self.ps.get_res_by_no(res_no)
-            if row is None:
-                print("Reservation No. is not found in the system")
-            else:
-                print()
-                self.ps.display_row(row)
-                print()
-                break        
+        res_no = self.ps.select_row("### Cancel Reservation ###")
 
         if prompt_yn("\nProceed?") == "y":
             self.ps.cancel_reservation(res_no)
@@ -56,22 +41,10 @@ class CancelReservationScreen(PScreen):
         self.back()
 
 class UpdateReservationScreen(PScreen):
+    title = "\n### Update Reservation ###"
+
     def show(self):
-        res_no = None
-
-        print("\n### Update Reservation ###\n")
-            
-
-        while True:
-            res_no = prompt_int("Reservation no: ")
-            row = self.ps.get_res_by_no(res_no)
-            if row is None:
-                print("Reservation No. is not found in the system")
-            else:
-                print()
-                self.ps.display_row(row)
-                print()
-                break        
+        res_no = self.ps.select_row(self.title)
 
         print(textwrap.dedent("""
             Select the data to update
@@ -135,14 +108,13 @@ class MakeReservationScreen(PScreen):
 
             self.ps.display_row(row)
 
-            prompt("Press any key")
+            prompt()
 
         self.back()
 
 class MainScreen(Screen):
     def __init__(self, app):
         super().__init__(app)
-        self.app.context["ps"] = ParkingSystem("reservations.csv")
     
     def show(self):
         print(textwrap.dedent("""

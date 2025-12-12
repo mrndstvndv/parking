@@ -72,7 +72,6 @@ class ParkingSystem:
         self.save()
 
     def display_row(self, row):
-        print()
         d = [list(row.values())]
         d.insert(0, ParkingSystem.headers)
         utils.print_matrix(d)
@@ -95,3 +94,45 @@ class ParkingSystem:
 
         utils.print_matrix(d)
         print()
+        
+    def select_row(self, title):
+        selected = 0
+        while True:
+            print(title)
+
+            print()
+            print("- Use arrow keys down/up to select reservations.")
+            print("- Press enter to select.")
+
+            d = []
+            d.append([" "] + ParkingSystem.headers)
+
+            for i, row in enumerate(self.data):
+                col = list(row.values())
+                if selected == i:
+                    d.append([">", *col])
+                else:
+                    d.append([" ", *col])
+ 
+            utils.print_matrix(d)
+
+            key = utils.get_key()
+            if key == (b'\xe0', b'P'):
+                if selected < len(d) - 2:
+                    selected += 1
+            elif key == (b'\xe0', b'H'):
+                if selected - 1 >= 0:
+                    selected -= 1
+            elif key == b'\r':
+                utils.clear_screen()
+                break
+
+            utils.clear_screen()
+
+        res_no = self.data[selected]["#"]
+        
+        print(title)
+
+        print(self.display_row(self.get_res_by_no(res_no)))
+        
+        return res_no

@@ -6,7 +6,7 @@ class Screen:
         self.app = app
    
     def show(self):
-        print("Hello World")
+        pass
     
     def go(self, screen):
         self.app.goto_screen(screen)
